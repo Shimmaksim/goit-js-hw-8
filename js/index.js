@@ -27,15 +27,15 @@ const createLi = item => {
 </li>`;
 };
 
-const createLIGallery = imageList.reduce((acc, item) => {
-  acc += createLi(item);
-  return acc;
-}, "");
+const createLIGallery = imageList.reduce(
+  (acc, item) => (acc += createLi(item)),
+  ""
+);
 
 gallery.insertAdjacentHTML("beforeend", createLIGallery);
 
 gallery.addEventListener("click", e => {
-  event.preventDefault(); //для того чтобы не перезагружать страницу
+  e.preventDefault(); //для того чтобы не перезагружать страницу
   if (e.target === e.currentTarget) {
     return;
   }
@@ -60,15 +60,16 @@ function handleOverlayClick(e) {
 }
 
 function handleClick(e) {
-  event.preventDefault();
+  const { target } = event;
+  e.preventDefault();
   lightbox.classList.add("is-open");
   window.addEventListener("keydown", handleKeyPress);
-  imageModalWindow.alt = `${event.target.getAttribute("alt")}`;
-  imageModalWindow.src = `${event.target.getAttribute("data-source")}`;
+  imageModalWindow.alt = `${target.getAttribute("alt")}`;
+  imageModalWindow.src = `${target.getAttribute("data-source")}`;
 }
 
 function handleKeyPress(e) {
-  if (event.code !== "Escape") {
+  if (e.code !== "Escape") {
     return;
   }
   lightbox.classList.remove("is-open");
